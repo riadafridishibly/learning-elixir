@@ -4,9 +4,9 @@ defmodule Benchmark do
     {elem(tuple, 0) / 1_000_000, elem(tuple, 1)}
   end
 
-  def measure(function, n) do
+  def measure(function, args) do
     function
-    |> :timer.tc([n])
+    |> :timer.tc(args)
     |> pretty()
   end
 end
@@ -28,8 +28,8 @@ end
 
 n = 100_000_000
 
-{non_tco_time, non_tco_result} = Benchmark.measure(&Sum.sum/1, n)
-{tco_time, tco_result} = Benchmark.measure(&SumTCO.sum/1, n)
+{non_tco_time, non_tco_result} = Benchmark.measure(&Sum.sum/1, [n])
+{tco_time, tco_result} = Benchmark.measure(&SumTCO.sum/1, [n])
 
 IO.puts("   Sum.sum(1..#{n}) = #{non_tco_result} took = #{non_tco_time}sec")
 IO.puts("SumTCO.sum(1..#{n}) = #{tco_result} took = #{tco_time}sec")
